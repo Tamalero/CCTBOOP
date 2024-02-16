@@ -20,11 +20,18 @@ public class ClassResources extends BaseResources {
             String className = scan.nextLine();
             System.out.println("Assign the Teacher ID now: ");
             int teacherID = Integer.parseInt(scan.nextLine());
+            System.out.println("Assign the Classroom ID now: ");
+            int ClassroomID = Integer.parseInt(scan.nextLine());
+            System.out.println("Assign the ID of the class now: ");
+            int ClassID = Integer.parseInt(scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (Classname, TeacherId) VALUES (?, ?)";
+
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (CourseID, CourseName, InstructorID, ClassroomID) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setString(1, className);
-                preparedStatement.setInt(2, teacherID);
+                preparedStatement.setInt(1, ClassID);
+                preparedStatement.setString(2, className);
+                preparedStatement.setInt(3, teacherID);
+                preparedStatement.setInt(4, ClassroomID);
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
             }
@@ -72,12 +79,12 @@ public class ClassResources extends BaseResources {
 
         try (Connection connection = MySqlConnection.getConnection()) {
             // performsn first select from to showcase what the user is seeing.
-            String query = "SELECT * FROM test";
+            String query = "SELECT * FROM Course";
             System.out.println("Class DB contains: ");
             try (PreparedStatement preparedStatement = connection.prepareStatement(query);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3));
+                    System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3)+ ", " + resultSet.getString(4));
 
                 }
             }
@@ -91,23 +98,25 @@ public class ClassResources extends BaseResources {
         String className = scan.nextLine();
         System.out.println("Assign the Teacher ID now: ");
         int teacherID = Integer.parseInt(scan.nextLine());
+        System.out.println("Assign the Classroom ID now: ");
+        int ClassroomID = Integer.parseInt(scan.nextLine());
         //String query = "UPDATE test set Classname = " +className+ ", TeacherId " + teacherID + " WHERE id = " + classID +";";
 
         try
                 (Connection connection = MySqlConnection.getConnection()) {
             // Does the UPDATE function
-            String query = "UPDATE test SET Classname = '" +className+ "', TeacherId = " + teacherID + " WHERE id = " + classID +";";
+            String query = "UPDATE Course SET Classname = '" +className+ "', TeacherId = " + teacherID + "', ClassroomID = " + ClassroomID +" " + "WHERE CourseID = " + classID +";";
             System.out.println(query);
             try (PreparedStatement conn = connection.prepareStatement(query)) {
                 int return1 = conn.executeUpdate();
                 System.out.println("Updated Rows: " + return1); // returns the number of rows affected
             }
-            query = "SELECT * FROM test"; // shows the resulted table
+            query = "SELECT * FROM Course"; // shows the resulted table
             System.out.println("\nUpdated Table \n");
             try (PreparedStatement conn = connection.prepareStatement(query);
                  ResultSet resultSet = conn.executeQuery()) {
                 while (resultSet.next()) {
-                    System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3));
+                    System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3)+ ", " + resultSet.getString(4));
                 }
             }
 
@@ -122,12 +131,12 @@ public class ClassResources extends BaseResources {
         // call external class for connecting to DB
         try (Connection connection = MySqlConnection.getConnection()) {
             // performsn first select from to showcase what the user is seeing.
-            String query = "SELECT * FROM test";
+            String query = "SELECT * FROM Course";
             System.out.println("Class DB contains: ");
             try (PreparedStatement preparedStatement = connection.prepareStatement(query);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3));
+                    System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3)+ ", " + resultSet.getString(4));
 
                 }
             }
@@ -138,7 +147,7 @@ public class ClassResources extends BaseResources {
         int classID = Integer.parseInt(scan.nextLine());
         //String query = "DELETE FROM test WHERE id = " + classID +";";
 
-        String query = "DELETE FROM test WHERE id = " + (classID) + ";";
+        String query = "DELETE FROM Course WHERE id = " + (classID) + ";";
         System.out.println(query + "\n");
         System.out.println("Are you sure you want to delete this class? (Yes/No)\n");
         String AreYouSure = scan.nextLine();
@@ -154,13 +163,13 @@ public class ClassResources extends BaseResources {
                 throw new RuntimeException(e);
             }
 
-            query = "SELECT * FROM test"; // shows the resulted table
+            query = "SELECT * FROM Course"; // shows the resulted table
             System.out.println("\nUpdated Table \n");
             try (Connection connection = MySqlConnection.getConnection()) {
                 try (PreparedStatement conn = connection.prepareStatement(query);
                      ResultSet resultSet = conn.executeQuery()) {
                     while (resultSet.next()) {
-                        System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2) + ", " + resultSet.getString(3));
+                        System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3)+ ", " + resultSet.getString(4));
                     }
 
 
