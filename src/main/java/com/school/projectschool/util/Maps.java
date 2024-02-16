@@ -9,7 +9,7 @@ public class Maps {
         Map<Character, String> map = new HashMap<>();
 
         // Add elements to map
-        map.put('C', "Class");
+        map.put('C', "Course");
         map.put('S', "Student");
         map.put('T', "Teacher");
         map.put('R', "Room");
